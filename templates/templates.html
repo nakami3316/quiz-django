@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" lang="ja">
+    <head>
+        <link rel="icon" href="{% static 'img/favicon.ico' %}">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Q-easy</title>
+        <link href="static/css/bootstrap.min.css" rel="stylesheet"> 
+    </head>
+    <h4><a href="{% url 'create' %}">問題追加</a></h4>
+    <h5>
+        {% if user.is_authenticated %}
+            <span>Hello, {{ user.username }}</span>
+            <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
+        {% else %}
+            <!-- <a id="login-btn" class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}" data-toggle="modal" data-target="#login-form-modal">ログイン</a> -->
+            <a href="{% url 'social:begin' 'google-oauth2' %}">ログイン</a>
+        {% endif %}
+    </h5>
+    <body>
+        <h1>
+            問題<br><a href="https://www.google.com/search?q={{question.text}}">{{question.text}}</a>
+        </h1>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="static/js/bootstrap.min.js"></script>
+        {% if question.correct_answer == 1 %}
+            ①<button onclick="location.href='./Q-easy/correct'">{{question.answer1}}</button>
+            ②<button onclick="location.href='./Q-easy/incorrect'">{{question.answer2}}</button>
+
+        {% else %}
+            ①<button onclick="location.href='./Q-easy/incorrect'">{{question.answer1}}</button>
+            ②<button onclick="location.href='./Q-easy/correct'">{{question.answer2}}</button>
+
+        {% endif %}
+    </body>
+</html>
